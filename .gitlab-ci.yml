@@ -37,3 +37,12 @@ deploy:
     - cd ~/tf_tmp
     - terraform init -from-module=$MANIFESTS -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
     - terraform apply -auto-approve -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
+
+stop:
+  stage: deploy
+  script:
+    - terraform destroy -force -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
+  environment:
+    name: haven-fe
+    action: stop
+  when: manual
