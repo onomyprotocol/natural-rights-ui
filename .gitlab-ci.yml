@@ -1,0 +1,19 @@
+image: docker:latest
+
+stages:
+  - build
+
+variables:
+  TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+
+services:
+  - name: docker:dind
+    alias: docker_dind
+
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - docker build -t $TEST_IMAGE .
