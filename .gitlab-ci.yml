@@ -29,11 +29,11 @@ build:
 deploy:
   stage: deploy
   script:
+    - MANIFESTS=$(pwd)/manifests
     - apk update && apk add --no-cache terraform
-    - APP=$(pwd)
     - mkdir -p ~/.ssh ~/tf_tmp && chmod 700 ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - cd ~/tf_tmp
-    - terraform init -from-module=$APP -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
+    - terraform init -from-module=$MANIFESTS -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
     - terraform apply -auto-approve -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
