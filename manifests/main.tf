@@ -15,6 +15,7 @@ resource "digitalocean_droplet" "haven-fe" {
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
+      host        = "${digitalocean_droplet.haven-fe.ipv4_address}"
       private_key = "${file("~/.ssh/id_rsa")}"
       user        = "root"
       timeout     = "2m"
