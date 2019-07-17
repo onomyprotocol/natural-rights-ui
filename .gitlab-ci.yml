@@ -41,15 +41,15 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - cd ~/tf_tmp
-    - terraform init -from-module=$MANIFESTS "$ARGS"
-    - terraform apply -auto-approve "$ARGS"
+    - terraform init -from-module=$MANIFESTS $ARGS
+    - terraform apply -auto-approve $ARGS
 
 stop:
   stage: deploy
   script:
     - apk update && apk add --no-cache terraform
     - cd ~/tf_tmp
-    - terraform destroy -force "$ARGS"
+    - terraform destroy -force $ARGS
   environment:
     name: haven-fe
     action: stop
