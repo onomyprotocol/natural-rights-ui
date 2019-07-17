@@ -8,6 +8,10 @@ variables:
   TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
+cache:
+  paths:
+    - ~/tf_tmp
+
 services:
   - name: docker:dind
     alias: docker_dind
