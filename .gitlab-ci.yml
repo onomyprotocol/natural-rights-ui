@@ -8,7 +8,7 @@ variables:
   TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
   RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
   LOGIN: "-var username=gitlab-ci-token -var password=$CI_JOB_TOKEN -var registry=$CI_REGISTRY"
-  ARGS: "-var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN -var image=$RELEASE_IMAGE $LOGIN"
+  ARGS: "-var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN -var image=$RELEASE_IMAGE"
 
 cache:
   paths:
@@ -41,15 +41,15 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - cd ~/tf_tmp
-    - terraform init -from-module=$MANIFESTS $ARGS
-    - terraform apply -auto-approve $ARGS
+    - terraform init -from-module=$MANIFESTS $ARGS $LOGIN
+    - terraform apply -auto-approve $ARGS $LOGIN
 
 stop:
   stage: deploy
   script:
     - apk update && apk add --no-cache terraform
     - cd ~/tf_tmp
-    - terraform destroy -force $ARGS
+    - terraform destroy -force $ARGS $LOGIN
   environment:
     name: haven-fe
     action: stop
