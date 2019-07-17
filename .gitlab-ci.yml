@@ -41,15 +41,15 @@ deploy:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
     - cd ~/tf_tmp
-    - terraform init -from-module=$MANIFESTS -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
-    - terraform apply -auto-approve -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
+    - terraform init -from-module=$MANIFESTS "$ARGS"
+    - terraform apply -auto-approve "$ARGS"
 
 stop:
   stage: deploy
   script:
     - apk update && apk add --no-cache terraform
     - cd ~/tf_tmp
-    - terraform destroy -force -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
+    - terraform destroy -force "$ARGS"
   environment:
     name: haven-fe
     action: stop
