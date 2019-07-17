@@ -45,6 +45,7 @@ deploy:
 stop:
   stage: deploy
   script:
+    - apk update && apk add --no-cache terraform
     - terraform destroy -force -var ssh_key_id=$SSH_KEY_ID -var token=$DO_TOKEN
   environment:
     name: haven-fe
