@@ -1,5 +1,9 @@
 variable "token" {}
 variable "ssh_key_id" {}
+variable "username" {}
+variable "password" {}
+variable "image" {}
+variable "registry" {}
 
 provider "digitalocean" {
   token = "${var.token}"
