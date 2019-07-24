@@ -1,0 +1,13 @@
+{
+  "check-coverage": true,
+  "per-file": true,
+  "lines": 0,
+  "functions": 0,
+  "branches": 0,
+  "include": ["src/**/*.js"],
+  "exclude": ["test/**/*.spec.js", "build"],
+  "cache": true,
+  "all": true,
+  "reporter": ["text", "text-summary"],
+  "report-dir": "./report"
+}
