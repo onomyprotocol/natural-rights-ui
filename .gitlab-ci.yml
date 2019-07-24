@@ -24,6 +24,8 @@ before_script:
 build:
   stage: build
   script:
+    - apk add --no-cache nodejs npm
+    - npm install && npm run build
     - docker build -t $TEST_IMAGE .
     - docker run -d -p 8080:80 $TEST_IMAGE
     - apk add --no-cache curl
