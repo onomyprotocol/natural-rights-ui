@@ -1,6 +1,11 @@
 # Directories
+.nyc_output
 .terraform
+build
+node_modules
 
 # Files
+.DS_Store
+*.log
 *.tfstate
 *.tfstate.backup
