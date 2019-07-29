@@ -1,4 +1,4 @@
-# React Client
+# Natural Rights UI
 
 ## Installation
 

@@ -3,9 +3,12 @@
 .terraform
 build
 node_modules
+radata
 
 # Files
 .DS_Store
 *.log
 *.tfstate
 *.tfstate.backup
+*.mdb
+radata*
