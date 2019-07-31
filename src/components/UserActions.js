@@ -1,15 +1,14 @@
 import React from 'react'
-import { CreateGroupForm } from './CreateGroupForm'
 import { useNaturalRights } from './NaturalRights'
+import { AuthorizeDeviceForm } from './AuthorizeDeviceForm'
 
 export function UserActions() {
-  const { userId } = useNaturalRights()
+  const { userId, logout } = useNaturalRights()
 
   return (
     <>
-      <pre>User ID: {userId}</pre>
-      <hr />
-      <CreateGroupForm />
+      {userId} <button onClick={logout}>Logout</button>
+      <AuthorizeDeviceForm />
     </>
   )
 }

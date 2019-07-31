@@ -1,15 +1,15 @@
 import React from 'react'
-import { AutoLogin } from '../components/NaturalRights'
-import { UserActions } from '../components/UserActions'
+import { Header } from '../Header'
 import { Document } from '../demo/Document'
+import { AuthorizeDeviceForm } from '../components/AuthorizeDeviceForm'
 
 function Homepage() {
   return (
-    <AutoLogin>
-      <UserActions />
-      <hr />
+    <>
+      <Header />
+      <AuthorizeDeviceForm style={{ display: 'inline' }} />
       <Document />
-    </AutoLogin>
+    </>
   )
 }
 

@@ -1,8 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Header } from '../Header'
 import { Document } from '../demo/Document'
-import { AutoLogin } from '../components/NaturalRights'
-import { UserActions } from '../components/UserActions'
 
 export function Doc({
   match: {
@@ -10,12 +8,9 @@ export function Doc({
   }
 }) {
   return (
-    <AutoLogin>
-      <Link to='/'>Homepage</Link>
-      <hr />
-      <UserActions />
-      <hr />
+    <>
+      <Header />
       <Document documentId={documentId} />
-    </AutoLogin>
+    </>
   )
 }

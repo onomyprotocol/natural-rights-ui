@@ -18,8 +18,8 @@
   "dependencies": {
     "@babel/runtime": "^7.5.5",
     "@ironcorelabs/recrypt-wasm-binding": "^0.5.1",
-    "gun": "^0.2019.712",
-    "natural-rights": "git+ssh://gitlab.com/nodehaven/natural-rights.git#v0.0.3",
+    "gun": "^0.2019.726",
+    "natural-rights": "git+ssh://gitlab.com/nodehaven/natural-rights.git#v0.0.5",
     "natural-rights-recrypt": "git+ssh://gitlab.com/nodehaven/natural-rights-recrypt.git#v0.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

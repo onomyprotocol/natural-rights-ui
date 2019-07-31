@@ -50,7 +50,14 @@ export function useNaturalRightsProvider(Primitives, url) {
     [gun]
   )
 
-  const logout = useCallback(() => trackRequest(() => gun.rights().logout()), [gun])
+  const logout = useCallback(
+    () =>
+      trackRequest(async () => {
+        await gun.rights().logout()
+        if (location && location.reload) location.reload()
+      }),
+    [gun]
+  )
 
   const value = {
     deviceId: client ? client.deviceId : '',

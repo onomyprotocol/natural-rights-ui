@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
-
+import { CollapseToggle } from '../components/CollapseToggle'
 import { GrantAccessForm } from '../components/GrantAccessForm'
 import { useNaturalRights } from '../components/NaturalRights'
 import { RevokeAccessForm } from '../components/RevokeAccess'
@@ -63,26 +63,43 @@ function DocumentBase({ history, documentId: documentIdProp = '' }) {
     <>
       {documentId && (
         <>
-          <Link to={`/doc/${documentId}`}>Document Link</Link>
-
-          {decryptError ? (
-            <h1>No Document Access</h1>
-          ) : (
-            <>
-              {data && <pre>{data}</pre>}
+          <h4>
+            Document: <Link to={`/doc/${documentId}`}>{documentId}</Link>
+          </h4>
+          {decryptError ? <h1>No Document Access</h1> : <>{data && <pre>{data}</pre>}</>}
+        </>
+      )}
+      {decryptError ? null : (
+        <CollapseToggle
+          collapsed={expand => (
+            <button onClick={expand}>{documentId ? 'Edit' : 'Create'} Document</button>
+          )}
+          expanded={collapse => (
+            <form onSubmit={onSubmit}>
+              <fieldset>
+                <legend onClick={collapse}>{documentId ? 'Edit' : 'Create'} Document</legend>
+                <textarea value={edited} onChange={onChange} cols={80} rows={5} />
+                <br />
+                <button onClick={collapse}>Cancel</button>
+                <button type='submit'>{documentId ? 'Edit' : 'Create'} Document</button>
+              </fieldset>
+            </form>
+          )}
+        />
+      )}
+      {documentId && !decryptError && (
+        <CollapseToggle
+          collapsed={expand => <button onClick={expand}>Manage Access</button>}
+          expanded={collapse => (
+            <fieldset>
+              <legend onClick={collapse}>Manage Access</legend>
               <GrantAccessForm documentId={documentId} kind='user' />
               <RevokeAccessForm documentId={documentId} kind='user' />
               <GrantAccessForm documentId={documentId} kind='group' />
               <RevokeAccessForm documentId={documentId} kind='group' />
-            </>
+            </fieldset>
           )}
-        </>
-      )}
-      {decryptError ? null : (
-        <form onSubmit={onSubmit}>
-          <textarea value={edited} onChange={onChange} />
-          <button type='submit'>Save Document</button>
-        </form>
+        />
       )}
     </>
   )

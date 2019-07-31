@@ -1,44 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useNaturalRights } from './hooks'
 
 export function AutoLogin({ children, LoginForm: LoginFormComponent = () => 'Unable to login' }) {
-  const { userId, gun, login, signup, isWorking } = useNaturalRights()
+  const { userId, gun, login, isWorking } = useNaturalRights()
+
+  const attemptLogin = useCallback(async () => {
+    if (userId || !gun) {
+      return
+    }
+
+    const rights = gun.rights()
+    const authStr = localStorage && localStorage.getItem('nrAuth')
+    let auth = authStr && JSON.parse(authStr)
+
+    if (!auth) {
+      auth = {
+        deviceCryptKeyPair: await rights.service.primitives.cryptKeyGen(),
+        deviceSignKeyPair: await rights.service.primitives.signKeyGen()
+      }
+      if (localStorage) {
+        localStorage.setItem('nrAuth', JSON.stringify(auth))
+      }
+    }
+
+    await login(auth)
+  }, [login])
 
   useEffect(() => {
-    (async () => {
-      if (userId || !gun) {
-        return
-      }
-
-      const authStr = localStorage && localStorage.getItem('nrAuth')
-      let auth = authStr && JSON.parse(authStr)
-
-      if (auth) {
-        return login(auth)
-      }
-
-      if (!userId) {
-        await signup()
-        const { client } = gun.rights()
-        auth = {
-          deviceCryptKeyPair: client.deviceCryptKeyPair,
-          deviceSignKeyPair: client.deviceSignKeyPair,
-          userId: client.userId
-        }
-        if (localStorage) {
-          localStorage.setItem('nrAuth', JSON.stringify(auth))
-        }
-      }
-    })()
+    attemptLogin()
   }, [gun])
 
-  if (isWorking) {
-    return <div>Logging in...</div>
-  }
-
-  if (userId) {
-    return children
-  }
-
+  if (isWorking) return <div>Logging in...</div>
+  if (userId) return children
   return LoginFormComponent ? <LoginFormComponent /> : null
 }

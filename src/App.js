@@ -1,9 +1,10 @@
 import React from 'react'
 import recryptApiToNaturalRights from 'natural-rights-recrypt'
 import { Route, Switch } from 'react-router-dom'
-import { NaturalRightsProvider } from './components/NaturalRights'
 import Homepage from './pages'
 import { Doc } from './pages/Doc'
+import { NaturalRightsProvider, AutoLogin, LoginForm } from './components/NaturalRights'
+import { MyProfile } from './pages/MyProfile'
 
 export function App() {
   return (
@@ -14,10 +15,13 @@ export function App() {
         )
       }
     >
-      <Switch>
-        <Route path='/' exact component={Homepage} />
-        <Route path='/doc/:documentId' exact component={Doc} />
-      </Switch>
+      <AutoLogin LoginForm={LoginForm}>
+        <Switch>
+          <Route path='/' exact component={Homepage} />
+          <Route path='/me' component={MyProfile} />
+          <Route path='/doc/:documentId' exact component={Doc} />
+        </Switch>
+      </AutoLogin>
     </NaturalRightsProvider>
   )
 }
